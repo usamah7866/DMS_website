@@ -4,12 +4,15 @@
     "city": "Lahore, Pakistan",
     "school_hours": "8:00 AM to 1:00 PM",
     "assistant_scope": "Admissions, academics, school life, careers, timings, campuses, and general school information",
-    "fee_policy": "The assistant must not discuss fees. Parents should contact the school office or receptionist directly for fee matters."
+    "fee_policy": "The assistant must not discuss fees. Parents should contact the school office or receptionist directly for fee matters.",
+    "admission_encouragement": "Families are warmly encouraged to visit the campus, speak with the admissions office, and begin the admission process early to secure better guidance and seat availability."
   },
   "guardrails": {
-    "blocked_topics": ["fee", "fees", "tuition", "charges", "discount", "payment"],
+    "blocked_topics": ["fee", "fees", "tuition", "charges", "discount", "payment", "monthly fee", "admission fee"],
     "blocked_response": "For fee details and financial matters, please contact the school office or receptionist directly. The assistant does not discuss fees online.",
-    "handoff_response": "For final confirmation, please contact the admissions office or visit the campus."
+    "handoff_response": "For final confirmation, please contact the admissions office or visit the campus.",
+    "greeting_keywords": ["hi", "hello", "salam", "assalam", "assalamualaikum", "aoa", "asalam"],
+    "thanks_keywords": ["thanks", "thank you", "jazakallah", "shukriya"]
   },
   "contacts": {
     "admissions_page": "admissions/",
@@ -39,164 +42,288 @@
     {
       "id": "admission-overview",
       "category": "admissions",
-      "keywords": ["admission", "apply", "process", "enroll", "new student"],
+      "keywords": ["admission", "apply", "process", "enroll", "enrol", "new student", "admission process", "how to apply", "admission lena"],
       "answer": "Admissions usually begin with a parent inquiry or campus visit, followed by the application form, document submission, academic review or assessment if required, and then admission confirmation from the school.",
       "details": [
         "Parents can start by contacting the relevant campus or visiting the admissions page.",
-        "Final admission is completed after document verification and school approval."
+        "Final admission is completed after document verification and school approval.",
+        "Starting early is a good idea because it gives parents more time for campus guidance and class placement."
       ],
       "source_page": "admissions/"
     },
     {
+      "id": "why-take-admission",
+      "category": "admissions",
+      "keywords": ["why admission", "why choose", "should i take admission", "good school", "best school", "why dms", "admission karwana chahiye"],
+      "answer": "Parents often look for a school that combines discipline, academic seriousness, confidence building, and a supportive environment, and that is exactly the kind of direction DMS presents.",
+      "details": [
+        "The school highlights structured academics, co-curricular growth, digital readiness, and a clear school routine.",
+        "A campus visit can help parents see the environment and feel more confident about admission."
+      ],
+      "source_page": "./"
+    },
+    {
       "id": "admission-documents",
       "category": "admissions",
-      "keywords": ["document", "documents", "b-form", "birth certificate", "cnic", "photo", "report card"],
+      "keywords": ["document", "documents", "b-form", "birth certificate", "cnic", "photo", "report card", "required documents", "kya documents chahiye"],
       "answer": "For admission, parents are commonly asked to provide the student's B-Form or birth record, passport-size photographs, the parent or guardian CNIC, and the student's previous school result or progress record if applicable.",
       "details": [
-        "Transfer students may also be asked for a school leaving certificate or transfer certificate."
+        "Transfer students may also be asked for a school leaving certificate or transfer certificate.",
+        "It is helpful to keep both original documents and photocopies ready before visiting the campus."
       ],
       "source_page": "admissions/"
     },
     {
       "id": "entry-test",
       "category": "admissions",
-      "keywords": ["test", "entry test", "assessment", "paper", "exam for admission"],
+      "keywords": ["test", "entry test", "assessment", "paper", "exam for admission", "assessment test", "admission test", "test hota hai"],
       "answer": "The school may conduct an assessment or admission test depending on the class level and student background. The purpose is usually to understand the student's academic readiness and class placement needs.",
       "details": [
         "Assessment may focus on English, Urdu, Mathematics, and general understanding depending on the grade.",
-        "Early years students may be observed through a short interaction instead of a formal written test."
+        "Early years students may be observed through a short interaction instead of a formal written test.",
+        "This is usually a helpful step because it allows the school to guide the child at the right level."
       ],
       "source_page": "admissions/"
     },
     {
       "id": "age-placement",
       "category": "admissions",
-      "keywords": ["age", "eligibility", "class placement", "nursery age", "kg age", "which class"],
+      "keywords": ["age", "eligibility", "class placement", "nursery age", "kg age", "which class", "age criteria", "umar", "kis class mein"],
       "answer": "Age and previous academic background are usually considered together when deciding class placement. Early years admissions often focus on age readiness, while higher classes also consider the student's previous results and learning level.",
       "details": [
-        "Parents should contact the campus for exact class-wise age guidance."
+        "Parents should contact the campus for exact class-wise age guidance.",
+        "The school may review both maturity and academic readiness before confirming a class."
+      ],
+      "source_page": "admissions/"
+    },
+    {
+      "id": "admission-timing",
+      "category": "admissions",
+      "keywords": ["when admissions open", "admissions open", "deadline", "last date", "session start", "seats available", "seat", "vacancy for admission"],
+      "answer": "Admissions are best discussed as early as possible because seat availability can vary by class and campus.",
+      "details": [
+        "Early contact usually gives parents smoother guidance on forms, documents, and assessment steps.",
+        "If you are planning admission, it is a good idea to contact the campus soon rather than waiting."
+      ],
+      "source_page": "admissions/"
+    },
+    {
+      "id": "campus-visit",
+      "category": "admissions",
+      "keywords": ["visit", "campus visit", "tour", "school visit", "can i visit", "visit school"],
+      "answer": "Yes, a campus visit is a very useful step for new parents because it allows them to see the environment, ask questions directly, and understand which campus suits their child best.",
+      "details": [
+        "A visit often makes the admission decision easier because parents can judge the atmosphere and routine for themselves.",
+        "It is helpful to contact the campus first before visiting."
+      ],
+      "source_page": "contact/"
+    },
+    {
+      "id": "transfer-student",
+      "category": "admissions",
+      "keywords": ["transfer", "change school", "school leaving certificate", "other school", "transfer student"],
+      "answer": "Transfer admissions are usually possible after the school reviews the student's previous academic record, required documents, and class placement needs.",
+      "details": [
+        "Parents should keep the previous result card and transfer-related documents ready.",
+        "The campus can guide whether any assessment is needed before confirming placement."
       ],
       "source_page": "admissions/"
     },
     {
       "id": "school-hours",
       "category": "operations",
-      "keywords": ["timing", "timings", "school time", "school hours", "open", "close"],
+      "keywords": ["timing", "timings", "school time", "school hours", "open", "close", "kitne baje", "school kab hota hai"],
       "answer": "The school timing is 8:00 AM to 1:00 PM.",
       "details": [
-        "Parents should still confirm any class-specific, seasonal, or exam-related timing changes with the campus."
+        "Parents should still confirm any class-specific, seasonal, or exam-related timing changes with the campus.",
+        "A clear routine is one of the strengths parents usually value in a disciplined school environment."
       ],
       "source_page": "contact/"
     },
     {
       "id": "curriculum-overview",
       "category": "academics",
-      "keywords": ["curriculum", "syllabus", "study", "teaching", "learning", "subjects", "academic"],
+      "keywords": ["curriculum", "syllabus", "study", "teaching", "learning", "subjects", "academic", "parhai", "course"],
       "answer": "The school follows a structured academic approach focused on strong fundamentals, regular classwork, homework discipline, assessment readiness, and balanced student development.",
       "details": [
-        "Students commonly study English, Urdu, Mathematics, Science, Islamiat, Pakistan Studies, Computer Studies, and other class-appropriate subjects."
+        "Students commonly study English, Urdu, Mathematics, Science, Islamiat, Pakistan Studies, Computer Studies, and other class-appropriate subjects.",
+        "This kind of structured approach is often reassuring for parents who want both academic progress and discipline."
       ],
       "source_page": "academics/"
     },
     {
       "id": "foundation-years",
       "category": "academics",
-      "keywords": ["nursery", "prep", "kg", "montessori", "early years", "junior classes"],
+      "keywords": ["nursery", "prep", "kg", "montessori", "early years", "junior classes", "kids classes", "small children"],
       "answer": "In the early years, the focus is usually on literacy, numeracy, classroom routine, confidence building, and social development in a caring learning environment.",
       "details": [
-        "Young learners are often guided through speaking, listening, writing practice, number work, and class participation."
+        "Young learners are often guided through speaking, listening, writing practice, number work, and class participation.",
+        "For parents of younger children, this stage is very important because it builds the base for future learning."
+      ],
+      "source_page": "academics/"
+    },
+    {
+      "id": "primary-classes",
+      "category": "academics",
+      "keywords": ["primary", "class 1", "class 2", "class 3", "class 4", "class 5"],
+      "answer": "In the primary years, students usually build stronger subject understanding through reading, writing, Mathematics, general knowledge, class participation, and regular academic practice.",
+      "details": [
+        "This stage is important because it strengthens both confidence and subject basics.",
+        "Parents who want steady academic progress often ask about this level before taking admission."
       ],
       "source_page": "academics/"
     },
     {
       "id": "board-preparation",
       "category": "academics",
-      "keywords": ["middle school", "matric", "board", "exam prep", "grade 9", "grade 10"],
+      "keywords": ["middle school", "matric", "board", "exam prep", "grade 9", "grade 10", "board classes", "result preparation"],
       "answer": "For middle and board-level classes, the academic focus becomes more structured around subject mastery, written practice, revision, test preparation, and measurable progress tracking.",
       "details": [
-        "Teachers often emphasize concept understanding alongside examination technique."
+        "Teachers often emphasize concept understanding alongside examination technique.",
+        "This kind of preparation matters for families who want stronger academic direction in higher classes."
+      ],
+      "source_page": "academics/"
+    },
+    {
+      "id": "homework-tests",
+      "category": "academics",
+      "keywords": ["homework", "tests", "monthly test", "midterm", "final term", "assessment system", "result card"],
+      "answer": "Students are generally supported through classwork, homework, monthly tests, term exams, and regular academic follow-up.",
+      "details": [
+        "This helps parents stay confident that progress is being checked in a familiar and disciplined way.",
+        "Regular testing is often one of the signs of a structured school routine."
+      ],
+      "source_page": "academics/"
+    },
+    {
+      "id": "computer-digital",
+      "category": "academics",
+      "keywords": ["computer", "digital", "portal", "technology", "ms word", "excel", "chatgpt", "digital skills"],
+      "answer": "The school presents digital exposure as a growing skill area, with computer learning and modern academic support becoming part of the student experience.",
+      "details": [
+        "This is useful for parents who want a school that feels current and not limited only to traditional classroom work.",
+        "Digital readiness can make the school experience feel more modern and future-focused."
       ],
       "source_page": "academics/"
     },
     {
       "id": "student-life",
       "category": "student-life",
-      "keywords": ["activities", "sports", "event", "competition", "annual day", "extra curricular"],
+      "keywords": ["activities", "sports", "event", "competition", "annual day", "extra curricular", "co curricular", "activity-based learning"],
       "answer": "Students can benefit from co-curricular and school-life activities such as assemblies, sports participation, competitions, celebrations, and event-based learning experiences.",
       "details": [
-        "Activities help build confidence, teamwork, communication, and student engagement."
+        "Activities help build confidence, teamwork, communication, and student engagement.",
+        "For many parents, this balance between academics and activities is a strong reason to consider admission."
       ],
       "source_page": "events/"
     },
     {
       "id": "trips-facilities",
       "category": "student-life",
-      "keywords": ["trip", "educational trip", "facility", "tuck shop", "play area", "sports area"],
+      "keywords": ["trip", "educational trip", "facility", "tuck shop", "play area", "sports area", "campus facilities"],
       "answer": "Student life may include educational trips, supervised facilities, activity areas, and practical support spaces that make the school environment more engaging and complete.",
       "details": [
-        "Parents can ask the campus for the latest facility details for a specific branch."
+        "Parents can ask the campus for the latest facility details for a specific branch.",
+        "A lively and well-supported environment often gives parents more confidence in the school experience."
       ],
       "source_page": "./"
     },
     {
       "id": "uniform-books-transport",
       "category": "student-life",
-      "keywords": ["uniform", "books", "book list", "transport", "van", "pickup", "drop"],
+      "keywords": ["uniform", "books", "book list", "transport", "van", "pickup", "drop", "school van"],
       "answer": "Uniform, books, and transport arrangements are school-related questions that are usually handled through the campus office so parents receive the latest approved guidance.",
       "details": [
-        "Book lists can vary by class and session, and transport availability may depend on route coverage."
+        "Book lists can vary by class and session, and transport availability may depend on route coverage.",
+        "If transport matters to your family, it is best to discuss your route directly with the campus."
       ],
       "source_page": "contact/"
     },
     {
-      "id": "campus-contacts",
-      "category": "contact",
-      "keywords": ["phone", "whatsapp", "contact", "call", "number", "campus", "location", "address"],
-      "answer": "You can contact Girls Campus at 042-37463067 and WhatsApp 0337-4005476, Kids Campus at 042-37417770 and WhatsApp 0331-4094322, and Rustam Park Campus at 042-37467772 and WhatsApp 0332-4297583.",
-      "details": [
-        "Girls Campus is at 77-A, Nadeem Park, Gulshan Ravi, Lahore. Kids Campus is at 500-A, Gulshan Ravi, Lahore. Rustam Park Campus is at 158, Rustam Park, Gulshan Ravi, Lahore."
-      ],
-      "source_page": "contact/"
-    },
-    {
-      "id": "school-values",
+      "id": "discipline-environment",
       "category": "general",
-      "keywords": ["environment", "discipline", "values", "culture", "safe", "care"],
+      "keywords": ["discipline", "environment", "safe", "culture", "values", "school environment", "care"],
       "answer": "The school presents itself as a disciplined, caring, and academically focused environment where students are expected to grow in confidence, responsibility, respect, and communication.",
       "details": [
-        "Character building and confidence are treated as important alongside classroom achievement."
+        "Character building and confidence are treated as important alongside classroom achievement.",
+        "This kind of environment is often exactly what parents want when choosing a school."
       ],
       "source_page": "./"
     },
     {
+      "id": "campus-contacts",
+      "category": "contact",
+      "keywords": ["phone", "whatsapp", "contact", "call", "number", "campus", "location", "address", "branch contact"],
+      "answer": "You can contact Girls Campus at 042-37463067 and WhatsApp 0337-4005476, Kids Campus at 042-37417770 and WhatsApp 0331-4094322, and Rustam Park Campus at 042-37467772 and WhatsApp 0332-4297583.",
+      "details": [
+        "Girls Campus is at 77-A, Nadeem Park, Gulshan Ravi, Lahore. Kids Campus is at 500-A, Gulshan Ravi, Lahore. Rustam Park Campus is at 158, Rustam Park, Gulshan Ravi, Lahore.",
+        "If you are seriously considering admission, contacting the nearest campus first is the best next step."
+      ],
+      "source_page": "contact/"
+    },
+    {
+      "id": "which-campus",
+      "category": "contact",
+      "keywords": ["which campus", "best campus", "nearest campus", "girls campus", "kids campus", "rustam park campus"],
+      "answer": "The best campus depends on the student's age group, preferred environment, and your family location.",
+      "details": [
+        "A quick call or visit usually helps parents decide faster because they can confirm class suitability and convenience together.",
+        "If you want, you can begin with the nearest campus and ask about available support for the student's class."
+      ],
+      "source_page": "contact/"
+    },
+    {
       "id": "teacher-careers",
       "category": "careers",
-      "keywords": ["job", "career", "teacher", "apply job", "vacancy", "cv", "resume", "teaching position"],
+      "keywords": ["job", "career", "teacher", "apply job", "vacancy", "cv", "resume", "teaching position", "teacher job", "teaching job"],
       "answer": "For teaching or school staff opportunities, candidates are generally expected to submit a professional CV and share their academic background, teaching experience, and role interest with the school.",
       "details": [
-        "For teaching roles, schools commonly prefer relevant qualifications, good communication skills, classroom confidence, subject understanding, and a professional attitude."
+        "For teaching roles, schools commonly prefer relevant qualifications, good communication skills, classroom confidence, subject understanding, and a professional attitude.",
+        "Applicants who present themselves clearly and professionally usually make a stronger impression."
       ],
       "source_page": "careers/"
     },
     {
       "id": "teacher-requirements",
       "category": "careers",
-      "keywords": ["qualification", "requirements", "teacher requirements", "b.ed", "m.ed", "graduate", "experience"],
+      "keywords": ["qualification", "requirements", "teacher requirements", "b.ed", "m.ed", "graduate", "experience", "minimum requirement"],
       "answer": "A school typically looks for relevant academic qualifications, subject knowledge, communication skills, discipline, and the ability to manage a classroom effectively. For many teaching roles, a graduate-level education is a common starting expectation, while stronger roles may prefer higher qualifications or previous experience.",
       "details": [
-        "Professional training such as B.Ed. or related teaching preparation can be valuable when applicable."
+        "Professional training such as B.Ed. or related teaching preparation can be valuable when applicable.",
+        "Candidates with both confidence and classroom understanding are usually preferred."
       ],
       "source_page": "careers/"
     },
     {
       "id": "interview-demo",
       "category": "careers",
-      "keywords": ["interview", "demo", "teaching demo", "class demo", "selection process"],
+      "keywords": ["interview", "demo", "teaching demo", "class demo", "selection process", "job interview"],
       "answer": "For teaching positions, schools often use an interview and sometimes a short teaching demonstration to assess communication, class management style, confidence, and subject understanding.",
       "details": [
-        "Candidates should be prepared to explain their teaching approach clearly and professionally."
+        "Candidates should be prepared to explain their teaching approach clearly and professionally.",
+        "A well-prepared interview can significantly improve the impression on the hiring team."
       ],
       "source_page": "careers/"
+    },
+    {
+      "id": "greeting",
+      "category": "general",
+      "keywords": ["hello", "hi", "salam", "aoa", "assalamualaikum"],
+      "answer": "Assalam-o-Alaikum. I am here to help with admissions, academics, school timings, campus guidance, and careers at DMS.",
+      "details": [
+        "If you are considering admission, I can guide you step by step and help you with the most common parent questions."
+      ],
+      "source_page": "./"
+    },
+    {
+      "id": "thanks",
+      "category": "general",
+      "keywords": ["thanks", "thank you", "shukriya", "jazakallah"],
+      "answer": "You are most welcome. If you would like, I can still help with admission steps, required documents, school timings, or campus contact details.",
+      "details": [
+        "If you are planning admission, this is a good time to ask your next question so the process stays simple."
+      ],
+      "source_page": "./"
     }
   ]
 }

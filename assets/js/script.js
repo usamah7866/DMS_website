@@ -185,17 +185,13 @@ let chatbotKnowledgeBase = null;
 const createChatbotMarkup = () => `
     <button class="chatbot-launcher" id="chatbotLauncher" type="button" aria-controls="chatbotPanel" aria-expanded="false">
         <span class="chatbot-launcher-dot"></span>
-        ${chatbotConfig.assistantName}
+        Chat with ${chatbotConfig.assistantName}
     </button>
     <section class="chatbot-panel" id="chatbotPanel" aria-label="DMS school assistant" hidden>
-        <div class="chatbot-panel__header">
-            <div>
-                <p class="chatbot-panel__eyebrow">${chatbotConfig.assistantName}</p>
-                <h3>Admissions and school help</h3>
-            </div>
-            <button class="chatbot-panel__close" id="chatbotClose" type="button" aria-label="Close chatbot">&times;</button>
-        </div>
         <div class="chatbot-panel__body">
+            <div class="chatbot-panel__topbar">
+                <button class="chatbot-panel__close" id="chatbotClose" type="button" aria-label="Close chatbot">&times;</button>
+            </div>
             <div class="chatbot-thread" id="chatbotThread" aria-live="polite">
                 <article class="chatbot-message chatbot-message--bot">
                     <p>Assalam-o-Alaikum. I am ${chatbotConfig.assistantName}. I can help with admissions, academics, school timings, activities, campus guidance, and teacher career questions. For fee matters, I will guide you to the school office.</p>
@@ -204,8 +200,8 @@ const createChatbotMarkup = () => `
             <div class="chatbot-suggestions" id="chatbotSuggestions"></div>
         </div>
         <form class="chatbot-form" id="chatbotForm">
-            <textarea id="chatbotInput" name="message" rows="1" placeholder="Ask about admission, school timings, campus, or careers..."></textarea>
-            <div class="chatbot-form__actions">
+            <div class="chatbot-composer">
+                <textarea id="chatbotInput" name="message" rows="1" placeholder="Ask about admission, school timings, campus, or careers..."></textarea>
                 <button class="chatbot-send" type="submit" aria-label="Send message">&#10148;</button>
             </div>
         </form>
@@ -241,6 +237,10 @@ const normalizeText = (value) =>
         .trim();
 
 const tokenize = (value) => normalizeText(value).split(" ").filter((token) => token.length > 1);
+const containsKeyword = (normalizedText, keyword) => {
+    const normalizedKeyword = normalizeText(keyword);
+    return ` ${normalizedText} `.includes(` ${normalizedKeyword} `);
+};
 
 const loadChatbotKnowledge = async () => {
     if (chatbotKnowledgeBase) return chatbotKnowledgeBase;
@@ -257,6 +257,9 @@ const loadChatbotKnowledge = async () => {
 const findBestEntries = (message, knowledge) => {
     const normalized = normalizeText(message);
     const tokens = tokenize(message);
+    const admissionIntent = ["admission", "apply", "enroll", "enrol", "new student"].some((keyword) => containsKeyword(normalized, keyword));
+    const careerIntent = ["job", "career", "teacher", "vacancy", "cv"].some((keyword) => containsKeyword(normalized, keyword));
+    const timingIntent = ["timing", "timings", "school time", "school hours"].some((keyword) => containsKeyword(normalized, keyword));
 
     return knowledge.entries
         .map((entry) => {
@@ -265,7 +268,7 @@ const findBestEntries = (message, knowledge) => {
 
             entry.keywords.forEach((keyword) => {
                 const normalizedKeyword = normalizeText(keyword);
-                if (normalized.includes(normalizedKeyword)) {
+                if (containsKeyword(normalized, normalizedKeyword)) {
                     score += normalizedKeyword.includes(" ") ? 7 : 4;
                 }
             });
@@ -276,6 +279,10 @@ const findBestEntries = (message, knowledge) => {
                 }
             });
 
+            if (admissionIntent && entry.category === "admissions") score += 5;
+            if (careerIntent && entry.category === "careers") score += 5;
+            if (timingIntent && entry.id === "school-hours") score += 5;
+
             return { entry, score };
         })
         .filter((item) => item.score > 0)
@@ -283,11 +290,52 @@ const findBestEntries = (message, knowledge) => {
         .slice(0, 2);
 };
 
+const buildClosingPrompt = (category) => {
+    if (category === "admissions") {
+        return "If you want, I can next guide you about documents, assessment, or the best campus to contact for admission.";
+    }
+
+    if (category === "academics") {
+        return "If you are considering admission, I can also explain class levels, subjects, and how the school supports academic progress.";
+    }
+
+    if (category === "student-life") {
+        return "If you are considering DMS for your child, I can also tell you about academics, timings, and the admission process.";
+    }
+
+    if (category === "careers") {
+        return "If you want, I can also guide you about application requirements, CV preparation, or the expected hiring process.";
+    }
+
+    if (category === "contact") {
+        return "If you are planning admission, contacting the nearest campus is the best next step.";
+    }
+
+    return "If you want, I can guide you further about admission, academics, timings, or campus contact details.";
+};
+
+const buildIntro = (category) => {
+    if (category === "admissions") return "Certainly.";
+    if (category === "academics") return "Of course.";
+    if (category === "careers") return "Sure.";
+    return "Yes.";
+};
+
 const buildKnowledgeReply = async (message) => {
     const knowledge = await loadChatbotKnowledge();
     const normalized = normalizeText(message);
 
-    if (knowledge.guardrails.blocked_topics.some((topic) => normalized.includes(normalizeText(topic)))) {
+    if (knowledge.guardrails.greeting_keywords.some((topic) => containsKeyword(normalized, topic))) {
+        const greetingEntry = knowledge.entries.find((entry) => entry.id === "greeting");
+        return `${greetingEntry.answer} ${greetingEntry.details[0]} ${buildClosingPrompt("admissions")}`;
+    }
+
+    if (knowledge.guardrails.thanks_keywords.some((topic) => containsKeyword(normalized, topic))) {
+        const thanksEntry = knowledge.entries.find((entry) => entry.id === "thanks");
+        return `${thanksEntry.answer} ${thanksEntry.details[0]}`;
+    }
+
+    if (knowledge.guardrails.blocked_topics.some((topic) => containsKeyword(normalized, topic))) {
         return `${knowledge.guardrails.blocked_response} You can also use ${buildRoute("contact")} or speak with the campus receptionist.`;
     }
 
@@ -300,24 +348,33 @@ const buildKnowledgeReply = async (message) => {
     const primary = bestEntries[0].entry;
     const secondary = bestEntries[1]?.entry;
     const detailLine = primary.details?.length ? ` ${primary.details[0]}` : "";
+    const supportLine = secondary && secondary.category === primary.category && secondary.id !== primary.id
+        ? ` ${secondary.answer}`
+        : "";
+    const intro = buildIntro(primary.category);
+    const closing = buildClosingPrompt(primary.category);
 
     if (primary.id === "campus-contacts") {
-        return `${primary.answer} ${detailLine} For complete details, please visit ${buildRoute("contact")}.`;
+        return `${intro} ${primary.answer}${detailLine} For complete details, please visit ${buildRoute("contact")}. ${closing}`;
     }
 
     if (primary.category === "careers") {
-        return `${primary.answer}${detailLine} You can also review ${buildRoute("careers")} for school hiring information.`;
+        return `${intro} ${primary.answer}${detailLine}${supportLine} You can also review ${buildRoute("careers")} for school hiring information. ${closing}`;
     }
 
     if (primary.category === "admissions") {
-        return `${primary.answer}${detailLine} If you want, you can also ask about documents, tests, school timings, or campus contact details.`;
+        return `${intro} ${primary.answer}${detailLine}${supportLine} ${knowledge.school.admission_encouragement} ${closing}`;
     }
 
-    if (secondary && secondary.category === primary.category && secondary.id !== primary.id) {
-        return `${primary.answer}${detailLine} ${secondary.answer}`;
+    if (primary.category === "academics") {
+        return `${intro} ${primary.answer}${detailLine}${supportLine} Many parents prefer this kind of structured academic environment when choosing a school. ${closing}`;
     }
 
-    return `${primary.answer}${detailLine}`;
+    if (primary.category === "student-life") {
+        return `${intro} ${primary.answer}${detailLine}${supportLine} A balanced school environment often helps parents feel more confident about admission. ${closing}`;
+    }
+
+    return `${intro} ${primary.answer}${detailLine}${supportLine} ${closing}`;
 };
 
 const initializeChatbot = () => {
