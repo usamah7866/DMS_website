@@ -1,0 +1,202 @@
+{
+  "school": {
+    "name": "Decent Model School",
+    "city": "Lahore, Pakistan",
+    "school_hours": "8:00 AM to 1:00 PM",
+    "assistant_scope": "Admissions, academics, school life, careers, timings, campuses, and general school information",
+    "fee_policy": "The assistant must not discuss fees. Parents should contact the school office or receptionist directly for fee matters."
+  },
+  "guardrails": {
+    "blocked_topics": ["fee", "fees", "tuition", "charges", "discount", "payment"],
+    "blocked_response": "For fee details and financial matters, please contact the school office or receptionist directly. The assistant does not discuss fees online.",
+    "handoff_response": "For final confirmation, please contact the admissions office or visit the campus."
+  },
+  "contacts": {
+    "admissions_page": "admissions/",
+    "contact_page": "contact/",
+    "campuses": [
+      {
+        "name": "Girls Campus",
+        "phone": "042-37463067",
+        "whatsapp": "0337-4005476",
+        "address": "77-A, Nadeem Park, Gulshan Ravi, Lahore"
+      },
+      {
+        "name": "Kids Campus",
+        "phone": "042-37417770",
+        "whatsapp": "0331-4094322",
+        "address": "500-A, Gulshan Ravi, Lahore"
+      },
+      {
+        "name": "Rustam Park Campus",
+        "phone": "042-37467772",
+        "whatsapp": "0332-4297583",
+        "address": "158, Rustam Park, Gulshan Ravi, Lahore"
+      }
+    ]
+  },
+  "entries": [
+    {
+      "id": "admission-overview",
+      "category": "admissions",
+      "keywords": ["admission", "apply", "process", "enroll", "new student"],
+      "answer": "Admissions usually begin with a parent inquiry or campus visit, followed by the application form, document submission, academic review or assessment if required, and then admission confirmation from the school.",
+      "details": [
+        "Parents can start by contacting the relevant campus or visiting the admissions page.",
+        "Final admission is completed after document verification and school approval."
+      ],
+      "source_page": "admissions/"
+    },
+    {
+      "id": "admission-documents",
+      "category": "admissions",
+      "keywords": ["document", "documents", "b-form", "birth certificate", "cnic", "photo", "report card"],
+      "answer": "For admission, parents are commonly asked to provide the student's B-Form or birth record, passport-size photographs, the parent or guardian CNIC, and the student's previous school result or progress record if applicable.",
+      "details": [
+        "Transfer students may also be asked for a school leaving certificate or transfer certificate."
+      ],
+      "source_page": "admissions/"
+    },
+    {
+      "id": "entry-test",
+      "category": "admissions",
+      "keywords": ["test", "entry test", "assessment", "paper", "exam for admission"],
+      "answer": "The school may conduct an assessment or admission test depending on the class level and student background. The purpose is usually to understand the student's academic readiness and class placement needs.",
+      "details": [
+        "Assessment may focus on English, Urdu, Mathematics, and general understanding depending on the grade.",
+        "Early years students may be observed through a short interaction instead of a formal written test."
+      ],
+      "source_page": "admissions/"
+    },
+    {
+      "id": "age-placement",
+      "category": "admissions",
+      "keywords": ["age", "eligibility", "class placement", "nursery age", "kg age", "which class"],
+      "answer": "Age and previous academic background are usually considered together when deciding class placement. Early years admissions often focus on age readiness, while higher classes also consider the student's previous results and learning level.",
+      "details": [
+        "Parents should contact the campus for exact class-wise age guidance."
+      ],
+      "source_page": "admissions/"
+    },
+    {
+      "id": "school-hours",
+      "category": "operations",
+      "keywords": ["timing", "timings", "school time", "school hours", "open", "close"],
+      "answer": "The school timing is 8:00 AM to 1:00 PM.",
+      "details": [
+        "Parents should still confirm any class-specific, seasonal, or exam-related timing changes with the campus."
+      ],
+      "source_page": "contact/"
+    },
+    {
+      "id": "curriculum-overview",
+      "category": "academics",
+      "keywords": ["curriculum", "syllabus", "study", "teaching", "learning", "subjects", "academic"],
+      "answer": "The school follows a structured academic approach focused on strong fundamentals, regular classwork, homework discipline, assessment readiness, and balanced student development.",
+      "details": [
+        "Students commonly study English, Urdu, Mathematics, Science, Islamiat, Pakistan Studies, Computer Studies, and other class-appropriate subjects."
+      ],
+      "source_page": "academics/"
+    },
+    {
+      "id": "foundation-years",
+      "category": "academics",
+      "keywords": ["nursery", "prep", "kg", "montessori", "early years", "junior classes"],
+      "answer": "In the early years, the focus is usually on literacy, numeracy, classroom routine, confidence building, and social development in a caring learning environment.",
+      "details": [
+        "Young learners are often guided through speaking, listening, writing practice, number work, and class participation."
+      ],
+      "source_page": "academics/"
+    },
+    {
+      "id": "board-preparation",
+      "category": "academics",
+      "keywords": ["middle school", "matric", "board", "exam prep", "grade 9", "grade 10"],
+      "answer": "For middle and board-level classes, the academic focus becomes more structured around subject mastery, written practice, revision, test preparation, and measurable progress tracking.",
+      "details": [
+        "Teachers often emphasize concept understanding alongside examination technique."
+      ],
+      "source_page": "academics/"
+    },
+    {
+      "id": "student-life",
+      "category": "student-life",
+      "keywords": ["activities", "sports", "event", "competition", "annual day", "extra curricular"],
+      "answer": "Students can benefit from co-curricular and school-life activities such as assemblies, sports participation, competitions, celebrations, and event-based learning experiences.",
+      "details": [
+        "Activities help build confidence, teamwork, communication, and student engagement."
+      ],
+      "source_page": "events/"
+    },
+    {
+      "id": "trips-facilities",
+      "category": "student-life",
+      "keywords": ["trip", "educational trip", "facility", "tuck shop", "play area", "sports area"],
+      "answer": "Student life may include educational trips, supervised facilities, activity areas, and practical support spaces that make the school environment more engaging and complete.",
+      "details": [
+        "Parents can ask the campus for the latest facility details for a specific branch."
+      ],
+      "source_page": "./"
+    },
+    {
+      "id": "uniform-books-transport",
+      "category": "student-life",
+      "keywords": ["uniform", "books", "book list", "transport", "van", "pickup", "drop"],
+      "answer": "Uniform, books, and transport arrangements are school-related questions that are usually handled through the campus office so parents receive the latest approved guidance.",
+      "details": [
+        "Book lists can vary by class and session, and transport availability may depend on route coverage."
+      ],
+      "source_page": "contact/"
+    },
+    {
+      "id": "campus-contacts",
+      "category": "contact",
+      "keywords": ["phone", "whatsapp", "contact", "call", "number", "campus", "location", "address"],
+      "answer": "You can contact Girls Campus at 042-37463067 and WhatsApp 0337-4005476, Kids Campus at 042-37417770 and WhatsApp 0331-4094322, and Rustam Park Campus at 042-37467772 and WhatsApp 0332-4297583.",
+      "details": [
+        "Girls Campus is at 77-A, Nadeem Park, Gulshan Ravi, Lahore. Kids Campus is at 500-A, Gulshan Ravi, Lahore. Rustam Park Campus is at 158, Rustam Park, Gulshan Ravi, Lahore."
+      ],
+      "source_page": "contact/"
+    },
+    {
+      "id": "school-values",
+      "category": "general",
+      "keywords": ["environment", "discipline", "values", "culture", "safe", "care"],
+      "answer": "The school presents itself as a disciplined, caring, and academically focused environment where students are expected to grow in confidence, responsibility, respect, and communication.",
+      "details": [
+        "Character building and confidence are treated as important alongside classroom achievement."
+      ],
+      "source_page": "./"
+    },
+    {
+      "id": "teacher-careers",
+      "category": "careers",
+      "keywords": ["job", "career", "teacher", "apply job", "vacancy", "cv", "resume", "teaching position"],
+      "answer": "For teaching or school staff opportunities, candidates are generally expected to submit a professional CV and share their academic background, teaching experience, and role interest with the school.",
+      "details": [
+        "For teaching roles, schools commonly prefer relevant qualifications, good communication skills, classroom confidence, subject understanding, and a professional attitude."
+      ],
+      "source_page": "careers/"
+    },
+    {
+      "id": "teacher-requirements",
+      "category": "careers",
+      "keywords": ["qualification", "requirements", "teacher requirements", "b.ed", "m.ed", "graduate", "experience"],
+      "answer": "A school typically looks for relevant academic qualifications, subject knowledge, communication skills, discipline, and the ability to manage a classroom effectively. For many teaching roles, a graduate-level education is a common starting expectation, while stronger roles may prefer higher qualifications or previous experience.",
+      "details": [
+        "Professional training such as B.Ed. or related teaching preparation can be valuable when applicable."
+      ],
+      "source_page": "careers/"
+    },
+    {
+      "id": "interview-demo",
+      "category": "careers",
+      "keywords": ["interview", "demo", "teaching demo", "class demo", "selection process"],
+      "answer": "For teaching positions, schools often use an interview and sometimes a short teaching demonstration to assess communication, class management style, confidence, and subject understanding.",
+      "details": [
+        "Candidates should be prepared to explain their teaching approach clearly and professionally."
+      ],
+      "source_page": "careers/"
+    }
+  ]
+}

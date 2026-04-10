@@ -165,3 +165,241 @@ if (carousel) {
     window.addEventListener("load", updateCarousel);
     updateCarousel();
 }
+
+const chatbotConfig = {
+    suggestedPrompts: [
+        "How can I apply for admission?",
+        "What documents are required for admission?",
+        "Is there an admission test?",
+        "What are the school timings?",
+        "How can I apply for a teacher job?"
+    ],
+    assistantName: "Nova"
+};
+
+const getPageDepth = () => Number(document.body?.dataset?.pageDepth || "0");
+const buildRoute = (slug) => `${getPageDepth() > 0 ? "../" : ""}${slug}/`;
+const buildAssetPath = (assetPath) => `${getPageDepth() > 0 ? "../" : ""}${assetPath}`;
+let chatbotKnowledgeBase = null;
+
+const createChatbotMarkup = () => `
+    <button class="chatbot-launcher" id="chatbotLauncher" type="button" aria-controls="chatbotPanel" aria-expanded="false">
+        <span class="chatbot-launcher-dot"></span>
+        ${chatbotConfig.assistantName}
+    </button>
+    <section class="chatbot-panel" id="chatbotPanel" aria-label="DMS school assistant" hidden>
+        <div class="chatbot-panel__header">
+            <div>
+                <p class="chatbot-panel__eyebrow">${chatbotConfig.assistantName}</p>
+                <h3>Admissions and school help</h3>
+            </div>
+            <button class="chatbot-panel__close" id="chatbotClose" type="button" aria-label="Close chatbot">&times;</button>
+        </div>
+        <div class="chatbot-panel__body">
+            <div class="chatbot-thread" id="chatbotThread" aria-live="polite">
+                <article class="chatbot-message chatbot-message--bot">
+                    <p>Assalam-o-Alaikum. I am ${chatbotConfig.assistantName}. I can help with admissions, academics, school timings, activities, campus guidance, and teacher career questions. For fee matters, I will guide you to the school office.</p>
+                </article>
+            </div>
+            <div class="chatbot-suggestions" id="chatbotSuggestions"></div>
+        </div>
+        <form class="chatbot-form" id="chatbotForm">
+            <textarea id="chatbotInput" name="message" rows="1" placeholder="Ask about admission, school timings, campus, or careers..."></textarea>
+            <div class="chatbot-form__actions">
+                <button class="chatbot-send" type="submit" aria-label="Send message">&#10148;</button>
+            </div>
+        </form>
+    </section>
+`;
+
+const escapeHtml = (value) =>
+    value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+
+const addChatMessage = (thread, text, sender) => {
+    thread.insertAdjacentHTML(
+        "beforeend",
+        `
+            <article class="chatbot-message chatbot-message--${sender}">
+                <p>${escapeHtml(text)}</p>
+            </article>
+        `
+    );
+
+    thread.scrollTop = thread.scrollHeight;
+};
+
+const normalizeText = (value) =>
+    value
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+const tokenize = (value) => normalizeText(value).split(" ").filter((token) => token.length > 1);
+
+const loadChatbotKnowledge = async () => {
+    if (chatbotKnowledgeBase) return chatbotKnowledgeBase;
+
+    const response = await fetch(buildAssetPath("assets/data/chatbot-knowledge.json"));
+    if (!response.ok) {
+        throw new Error("Unable to load chatbot knowledge.");
+    }
+
+    chatbotKnowledgeBase = await response.json();
+    return chatbotKnowledgeBase;
+};
+
+const findBestEntries = (message, knowledge) => {
+    const normalized = normalizeText(message);
+    const tokens = tokenize(message);
+
+    return knowledge.entries
+        .map((entry) => {
+            const entryText = normalizeText(`${entry.answer} ${entry.category} ${entry.keywords.join(" ")} ${entry.details.join(" ")}`);
+            let score = 0;
+
+            entry.keywords.forEach((keyword) => {
+                const normalizedKeyword = normalizeText(keyword);
+                if (normalized.includes(normalizedKeyword)) {
+                    score += normalizedKeyword.includes(" ") ? 7 : 4;
+                }
+            });
+
+            tokens.forEach((token) => {
+                if (entryText.includes(token)) {
+                    score += 1;
+                }
+            });
+
+            return { entry, score };
+        })
+        .filter((item) => item.score > 0)
+        .sort((left, right) => right.score - left.score)
+        .slice(0, 2);
+};
+
+const buildKnowledgeReply = async (message) => {
+    const knowledge = await loadChatbotKnowledge();
+    const normalized = normalizeText(message);
+
+    if (knowledge.guardrails.blocked_topics.some((topic) => normalized.includes(normalizeText(topic)))) {
+        return `${knowledge.guardrails.blocked_response} You can also use ${buildRoute("contact")} or speak with the campus receptionist.`;
+    }
+
+    const bestEntries = findBestEntries(message, knowledge);
+
+    if (!bestEntries.length) {
+        return `I can help with admissions, school timings, academics, campus guidance, student life, and careers. Please ask in a little more detail, or use ${buildRoute("contact")} to reach the school directly.`;
+    }
+
+    const primary = bestEntries[0].entry;
+    const secondary = bestEntries[1]?.entry;
+    const detailLine = primary.details?.length ? ` ${primary.details[0]}` : "";
+
+    if (primary.id === "campus-contacts") {
+        return `${primary.answer} ${detailLine} For complete details, please visit ${buildRoute("contact")}.`;
+    }
+
+    if (primary.category === "careers") {
+        return `${primary.answer}${detailLine} You can also review ${buildRoute("careers")} for school hiring information.`;
+    }
+
+    if (primary.category === "admissions") {
+        return `${primary.answer}${detailLine} If you want, you can also ask about documents, tests, school timings, or campus contact details.`;
+    }
+
+    if (secondary && secondary.category === primary.category && secondary.id !== primary.id) {
+        return `${primary.answer}${detailLine} ${secondary.answer}`;
+    }
+
+    return `${primary.answer}${detailLine}`;
+};
+
+const initializeChatbot = () => {
+    if (document.getElementById("chatbotLauncher")) return;
+
+    document.body.insertAdjacentHTML("beforeend", createChatbotMarkup());
+
+    const launcher = document.getElementById("chatbotLauncher");
+    const panel = document.getElementById("chatbotPanel");
+    const closeButton = document.getElementById("chatbotClose");
+    const form = document.getElementById("chatbotForm");
+    const input = document.getElementById("chatbotInput");
+    const thread = document.getElementById("chatbotThread");
+    const suggestions = document.getElementById("chatbotSuggestions");
+    let suggestionsHidden = false;
+
+    const hideSuggestions = () => {
+        if (suggestionsHidden) return;
+        suggestions.innerHTML = "";
+        suggestions.hidden = true;
+        suggestionsHidden = true;
+    };
+
+    const setOpen = async (isOpen) => {
+        panel.hidden = !isOpen;
+        launcher.setAttribute("aria-expanded", String(isOpen));
+        document.body.classList.toggle("chatbot-open", isOpen);
+
+        if (isOpen) {
+            if (!chatbotKnowledgeBase) {
+                try {
+                    await loadChatbotKnowledge();
+                } catch (error) {}
+            }
+            input.focus();
+        }
+    };
+
+    const submitChatMessage = async (message) => {
+        addChatMessage(thread, message, "user");
+        input.value = "";
+        hideSuggestions();
+
+        try {
+            const reply = await buildKnowledgeReply(message);
+            window.setTimeout(() => {
+                addChatMessage(thread, reply, "bot");
+            }, 250);
+        } catch (error) {
+            addChatMessage(
+                thread,
+                `I could not load the school knowledge right now. Please try again, or use ${buildRoute("contact")} to reach the campus directly.`,
+                "bot"
+            );
+        }
+    };
+
+    chatbotConfig.suggestedPrompts.forEach((prompt) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "chatbot-chip";
+        button.textContent = prompt;
+        button.addEventListener("click", async () => {
+            await setOpen(true);
+            submitChatMessage(prompt);
+        });
+        suggestions.appendChild(button);
+    });
+
+    launcher.addEventListener("click", () => {
+        setOpen(panel.hidden);
+    });
+    closeButton.addEventListener("click", () => setOpen(false));
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const message = input.value.trim();
+        if (!message) return;
+
+        submitChatMessage(message);
+    });
+};
+
+initializeChatbot();
