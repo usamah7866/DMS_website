@@ -105,18 +105,7 @@
                     <p class="eyebrow">Admission Form</p>
                     <h3>A school-style form designed for complete student registration intake.</h3>
                 </div>
-                <div class="admission-layout">
-                    <aside class="admission-sidebar reveal">
-                        <div class="sidebar-card">
-                            <p class="eyebrow">Required Documents</p>
-                            <ul class="feature-list">
-                                <li>Student photograph</li>
-                                <li>B-Form or birth certificate</li>
-                                <li>Parent or guardian CNIC</li>
-                            </ul>
-                        </div>
-                    </aside>
-
+                <div class="admission-layout admission-layout--full">
                     <div class="admission-form-wrap reveal">
                         <form class="admission-form" id="admissionForm" method="post" action="https://formsubmit.co/usamah651@gmail.com" enctype="multipart/form-data">
                             <input type="hidden" name="_subject" value="New DMS Admission Form Submission">
@@ -124,7 +113,21 @@
                             <input type="hidden" name="_next" id="admissionNextUrl" value="">
                             <input type="hidden" name="_url" id="admissionFormUrl" value="">
                             <input type="hidden" name="_replyto" id="admissionReplyTo" value="">
+                            <input type="hidden" name="submission_timestamp" id="admissionTimestamp" value="">
                             <input type="text" name="_honey" class="visually-hidden" tabindex="-1" autocomplete="off">
+
+                            <div class="form-info-strip">
+                                <div class="form-info-strip__heading">
+                                    <p class="eyebrow">Required Documents</p>
+                                    <strong>Keep these ready before submitting the form.</strong>
+                                </div>
+                                <div class="form-info-strip__items">
+                                    <span>Student photograph</span>
+                                    <span>B-Form or birth certificate</span>
+                                    <span>Parent or guardian CNIC</span>
+                                </div>
+                            </div>
+
                             <div class="form-grid two-col">
                                 <label>
                                     <span>Campus Applying For</span>

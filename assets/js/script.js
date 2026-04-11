@@ -46,6 +46,7 @@ const admissionValidationNote = document.getElementById("admissionValidationNote
 const admissionNextUrl = document.getElementById("admissionNextUrl");
 const admissionFormUrl = document.getElementById("admissionFormUrl");
 const admissionReplyTo = document.getElementById("admissionReplyTo");
+const admissionTimestamp = document.getElementById("admissionTimestamp");
 const submissionNote = document.getElementById("submissionNote");
 const careerCampusSelect = document.getElementById("careerCampusSelect");
 const careerCampusName = document.getElementById("careerCampusName");
@@ -58,7 +59,21 @@ const careerValidationNote = document.getElementById("careerValidationNote");
 const careerNextUrl = document.getElementById("careerNextUrl");
 const careerFormUrl = document.getElementById("careerFormUrl");
 const careerReplyTo = document.getElementById("careerReplyTo");
+const careerTimestamp = document.getElementById("careerTimestamp");
 const careerSubmissionNote = document.getElementById("careerSubmissionNote");
+
+const formatSubmissionTimestamp = () => {
+    const now = new Date();
+    return now.toLocaleString("en-PK", {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+    });
+};
 
 const buildFormReturnUrl = (formType) => {
     const current = new URL(window.location.href);
@@ -86,11 +101,11 @@ const showSubmissionSuccessFromQuery = () => {
     const submitted = params.get("submitted");
 
     if (submitted === "admission" && submissionNote) {
-        submissionNote.textContent = "Your admission form was sent successfully. Please check your email inbox for FormSubmit activation the first time, then future submissions will be delivered directly.";
+        submissionNote.textContent = "Please verify your email first. After activation, your admission form submissions will be delivered properly.";
     }
 
     if (submitted === "career" && careerSubmissionNote) {
-        careerSubmissionNote.textContent = "Your career application was sent successfully. Please check your email inbox for FormSubmit activation the first time, then future submissions will be delivered directly.";
+        careerSubmissionNote.textContent = "Please verify your email first. After activation, your career form submissions will be delivered properly.";
     }
 };
 
@@ -131,6 +146,9 @@ if (admissionForm && submissionNote && campusSelect) {
 
         if (admissionReplyTo) {
             admissionReplyTo.value = primaryEmail;
+        }
+        if (admissionTimestamp) {
+            admissionTimestamp.value = formatSubmissionTimestamp();
         }
 
         const selectedOption = campusSelect.options[campusSelect.selectedIndex];
@@ -176,6 +194,9 @@ if (careerForm && careerSubmissionNote) {
 
         if (careerReplyTo) {
             careerReplyTo.value = primaryEmail;
+        }
+        if (careerTimestamp) {
+            careerTimestamp.value = formatSubmissionTimestamp();
         }
 
         careerSubmissionNote.textContent = "Submitting your career application and CV to the school career inbox.";

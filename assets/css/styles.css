@@ -1248,6 +1248,10 @@ a {
     align-items: start;
 }
 
+.admission-layout--full {
+    grid-template-columns: 1fr;
+}
+
 .admission-sidebar {
     display: grid;
     gap: 18px;
@@ -1268,6 +1272,41 @@ a {
 
 .admission-form-wrap {
     padding: 26px;
+}
+
+.form-info-strip {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding: 18px 20px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(20, 54, 103, 0.06), rgba(239, 91, 60, 0.08));
+    border: 1px solid rgba(20, 54, 103, 0.08);
+}
+
+.form-info-strip__heading strong {
+    display: block;
+    font-family: "Outfit", sans-serif;
+    font-size: 1.05rem;
+    color: var(--navy-900);
+}
+
+.form-info-strip__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.form-info-strip__items span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(20, 54, 103, 0.08);
+    font-weight: 700;
+    color: var(--navy-900);
 }
 
 .admission-form {
