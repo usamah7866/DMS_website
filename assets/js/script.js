@@ -43,6 +43,9 @@ const admissionForm = document.getElementById("admissionForm");
 const admissionEmail = document.getElementById("admissionEmail");
 const admissionConfirmEmail = document.getElementById("admissionConfirmEmail");
 const admissionValidationNote = document.getElementById("admissionValidationNote");
+const admissionNextUrl = document.getElementById("admissionNextUrl");
+const admissionFormUrl = document.getElementById("admissionFormUrl");
+const admissionReplyTo = document.getElementById("admissionReplyTo");
 const submissionNote = document.getElementById("submissionNote");
 const careerCampusSelect = document.getElementById("careerCampusSelect");
 const careerCampusName = document.getElementById("careerCampusName");
@@ -52,7 +55,44 @@ const careerForm = document.getElementById("careerForm");
 const careerEmail = document.getElementById("careerEmail");
 const careerConfirmEmail = document.getElementById("careerConfirmEmail");
 const careerValidationNote = document.getElementById("careerValidationNote");
+const careerNextUrl = document.getElementById("careerNextUrl");
+const careerFormUrl = document.getElementById("careerFormUrl");
+const careerReplyTo = document.getElementById("careerReplyTo");
 const careerSubmissionNote = document.getElementById("careerSubmissionNote");
+
+const buildFormReturnUrl = (formType) => {
+    const current = new URL(window.location.href);
+    current.searchParams.set("submitted", formType);
+    return current.toString();
+};
+
+const initializeFormSubmitFields = () => {
+    if (admissionNextUrl) {
+        admissionNextUrl.value = buildFormReturnUrl("admission");
+    }
+    if (admissionFormUrl) {
+        admissionFormUrl.value = window.location.href;
+    }
+    if (careerNextUrl) {
+        careerNextUrl.value = buildFormReturnUrl("career");
+    }
+    if (careerFormUrl) {
+        careerFormUrl.value = window.location.href;
+    }
+};
+
+const showSubmissionSuccessFromQuery = () => {
+    const params = new URLSearchParams(window.location.search);
+    const submitted = params.get("submitted");
+
+    if (submitted === "admission" && submissionNote) {
+        submissionNote.textContent = "Your admission form was sent successfully. Please check your email inbox for FormSubmit activation the first time, then future submissions will be delivered directly.";
+    }
+
+    if (submitted === "career" && careerSubmissionNote) {
+        careerSubmissionNote.textContent = "Your career application was sent successfully. Please check your email inbox for FormSubmit activation the first time, then future submissions will be delivered directly.";
+    }
+};
 
 if (campusSelect && targetCampusName && targetCampusEmail) {
     const updateCampusRouting = () => {
@@ -87,6 +127,10 @@ if (admissionForm && submissionNote && campusSelect) {
 
         if (admissionValidationNote) {
             admissionValidationNote.hidden = true;
+        }
+
+        if (admissionReplyTo) {
+            admissionReplyTo.value = primaryEmail;
         }
 
         const selectedOption = campusSelect.options[campusSelect.selectedIndex];
@@ -130,9 +174,16 @@ if (careerForm && careerSubmissionNote) {
             careerValidationNote.hidden = true;
         }
 
+        if (careerReplyTo) {
+            careerReplyTo.value = primaryEmail;
+        }
+
         careerSubmissionNote.textContent = "Submitting your career application and CV to the school career inbox.";
     });
 }
+
+initializeFormSubmitFields();
+showSubmissionSuccessFromQuery();
 
 const carousel = document.querySelector("[data-carousel]");
 
