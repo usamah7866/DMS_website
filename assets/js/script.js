@@ -108,12 +108,14 @@ const initializeFormSubmitFields = () => {
 const showSubmissionSuccessFromQuery = () => {
     const params = new URLSearchParams(window.location.search);
     const submitted = params.get("submitted");
+    let shouldCleanUrl = false;
 
     if (submitted === "admission" && submissionNote) {
         submissionNote.hidden = true;
         if (admissionSuccessCard) {
             admissionSuccessCard.hidden = false;
         }
+        shouldCleanUrl = true;
     }
 
     if (submitted === "career" && careerSubmissionNote) {
@@ -121,6 +123,14 @@ const showSubmissionSuccessFromQuery = () => {
         if (careerSuccessCard) {
             careerSuccessCard.hidden = false;
         }
+        shouldCleanUrl = true;
+    }
+
+    if (shouldCleanUrl) {
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.delete("submitted");
+        const cleanUrl = `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`;
+        window.history.replaceState({}, document.title, cleanUrl);
     }
 };
 

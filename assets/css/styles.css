@@ -37,6 +37,10 @@ a {
     color: inherit;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 .site-shell {
     width: min(1400px, calc(100% - 32px));
     margin: 16px auto;
