@@ -1316,6 +1316,21 @@ a {
     resize: vertical;
 }
 
+.input-pair {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 10px;
+}
+
+.country-code-input {
+    text-align: center;
+}
+
+.form-validation-note {
+    color: #b42318;
+    font-weight: 700;
+}
+
 .uploads-grid input[type="file"] {
     padding: 14px;
 }

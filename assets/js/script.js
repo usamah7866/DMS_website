@@ -38,22 +38,33 @@ if ("IntersectionObserver" in window) {
 const campusSelect = document.getElementById("campusSelect");
 const targetCampusName = document.getElementById("targetCampusName");
 const targetCampusEmail = document.getElementById("targetCampusEmail");
+const admissionRoutingEmail = document.getElementById("admissionRoutingEmail");
 const admissionForm = document.getElementById("admissionForm");
+const admissionEmail = document.getElementById("admissionEmail");
+const admissionConfirmEmail = document.getElementById("admissionConfirmEmail");
+const admissionValidationNote = document.getElementById("admissionValidationNote");
 const submissionNote = document.getElementById("submissionNote");
 const careerCampusSelect = document.getElementById("careerCampusSelect");
 const careerCampusName = document.getElementById("careerCampusName");
 const careerTargetEmail = document.getElementById("careerTargetEmail");
+const careerRoutingEmail = document.getElementById("careerRoutingEmail");
 const careerForm = document.getElementById("careerForm");
+const careerEmail = document.getElementById("careerEmail");
+const careerConfirmEmail = document.getElementById("careerConfirmEmail");
+const careerValidationNote = document.getElementById("careerValidationNote");
 const careerSubmissionNote = document.getElementById("careerSubmissionNote");
 
 if (campusSelect && targetCampusName && targetCampusEmail) {
     const updateCampusRouting = () => {
         const selectedOption = campusSelect.options[campusSelect.selectedIndex];
         const campusName = selectedOption?.value || "Selected Campus Email";
-        const campusEmail = selectedOption?.dataset?.email || "dmchool0077@gmail.com";
+        const campusEmail = selectedOption?.dataset?.email || "usamah651@gmail.com";
 
         targetCampusName.textContent = campusName === "Selected Campus Email" ? campusName : `${campusName} Email`;
         targetCampusEmail.textContent = campusEmail;
+        if (admissionRoutingEmail) {
+            admissionRoutingEmail.value = campusEmail;
+        }
     };
 
     campusSelect.addEventListener("change", updateCampusRouting);
@@ -61,7 +72,23 @@ if (campusSelect && targetCampusName && targetCampusEmail) {
 }
 
 if (admissionForm && submissionNote && campusSelect) {
-    admissionForm.addEventListener("submit", () => {
+    admissionForm.addEventListener("submit", (event) => {
+        const primaryEmail = admissionEmail?.value?.trim() || "";
+        const confirmEmail = admissionConfirmEmail?.value?.trim() || "";
+
+        if ((primaryEmail || confirmEmail) && primaryEmail !== confirmEmail) {
+            event.preventDefault();
+            if (admissionValidationNote) {
+                admissionValidationNote.hidden = false;
+            }
+            admissionConfirmEmail?.focus();
+            return;
+        }
+
+        if (admissionValidationNote) {
+            admissionValidationNote.hidden = true;
+        }
+
         const selectedOption = campusSelect.options[campusSelect.selectedIndex];
         const campusName = selectedOption?.value || "Selected Campus";
         submissionNote.textContent = `Submitting admission form for ${campusName}. Please wait...`;
@@ -72,10 +99,13 @@ if (careerCampusSelect && careerCampusName && careerTargetEmail) {
     const updateCareerRouting = () => {
         const selectedOption = careerCampusSelect.options[careerCampusSelect.selectedIndex];
         const campusName = selectedOption?.value || "Selected Campus Email";
-        const campusEmail = selectedOption?.dataset?.email || "dmchool0077@gmail.com";
+        const campusEmail = selectedOption?.dataset?.email || "usamah651@gmail.com";
 
         careerCampusName.textContent = campusName === "Selected Campus Email" ? campusName : `${campusName} Email`;
         careerTargetEmail.textContent = campusEmail;
+        if (careerRoutingEmail) {
+            careerRoutingEmail.value = campusEmail;
+        }
     };
 
     careerCampusSelect.addEventListener("change", updateCareerRouting);
@@ -83,7 +113,23 @@ if (careerCampusSelect && careerCampusName && careerTargetEmail) {
 }
 
 if (careerForm && careerSubmissionNote) {
-    careerForm.addEventListener("submit", () => {
+    careerForm.addEventListener("submit", (event) => {
+        const primaryEmail = careerEmail?.value?.trim() || "";
+        const confirmEmail = careerConfirmEmail?.value?.trim() || "";
+
+        if (primaryEmail !== confirmEmail) {
+            event.preventDefault();
+            if (careerValidationNote) {
+                careerValidationNote.hidden = false;
+            }
+            careerConfirmEmail?.focus();
+            return;
+        }
+
+        if (careerValidationNote) {
+            careerValidationNote.hidden = true;
+        }
+
         careerSubmissionNote.textContent = "Submitting your career application and CV to the school career inbox.";
     });
 }

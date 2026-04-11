@@ -91,11 +91,12 @@
                                     <span>Campus Applying For</span>
                                     <select id="careerCampusSelect" name="campus" required>
                                         <option value="">Select campus</option>
-                                        <option value="Girls Campus" data-email="dmchool0077@gmail.com">Girls Campus</option>
-                                        <option value="Kids Campus" data-email="dmchool0077@gmail.com">Kids Campus</option>
-                                        <option value="Rustam Park Campus" data-email="dmchool0077@gmail.com">Rustam Park Campus</option>
+                                        <option value="Girls Campus" data-email="usamah651@gmail.com">Girls Campus</option>
+                                        <option value="Kids Campus" data-email="usamah651@gmail.com">Kids Campus</option>
+                                        <option value="Rustam Park Campus" data-email="usamah651@gmail.com">Rustam Park Campus</option>
                                     </select>
                                 </label>
+                                <input type="hidden" name="routing_email" id="careerRoutingEmail" value="usamah651@gmail.com">
                                 <label>
                                     <span>Position Applied For</span>
                                     <input type="text" name="position_applied_for" required>
@@ -106,11 +107,18 @@
                                 </label>
                                 <label>
                                     <span>Email Address</span>
-                                    <input type="email" name="email" required>
+                                    <input type="email" name="email" id="careerEmail" placeholder="name@example.com" required>
+                                </label>
+                                <label>
+                                    <span>Confirm Email Address</span>
+                                    <input type="email" name="confirm_email" id="careerConfirmEmail" placeholder="Re-enter email address" required>
                                 </label>
                                 <label>
                                     <span>Phone Number</span>
-                                    <input type="tel" name="phone" required>
+                                    <div class="input-pair">
+                                        <input type="text" name="phone_country_code" value="+92" placeholder="+92" class="country-code-input" required>
+                                        <input type="tel" name="phone" placeholder="3001234567" required>
+                                    </div>
                                 </label>
                                 <label>
                                     <span>Date of Birth</span>
@@ -161,12 +169,13 @@
                             <div class="form-section-title">Professional Note</div>
                             <div class="form-grid">
                                 <label style="grid-column: 1 / -1;">
-                                    <span>Cover Letter / Message</span>
+                                    <span>Cover Letter / Message (Optional)</span>
                                     <textarea name="cover_letter" rows="5"></textarea>
                                 </label>
                             </div>
 
                             <div class="form-footer">
+                                <p class="form-validation-note" id="careerValidationNote" hidden>Please make sure both email fields match before submitting.</p>
                                 <p id="careerSubmissionNote">Complete the form carefully and upload your latest CV before submitting your application.</p>
                                 <div class="hero-actions">
                                     <button class="btn btn-primary" type="submit">Submit Career Application</button>

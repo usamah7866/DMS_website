@@ -89,7 +89,7 @@
                         </div>
                     </article>
                     <article class="story-card reveal">
-                        <div class="story-photo campus-photo" style="background-image: url('../assets/images/rustam-park-campus.png');"></div>
+                        <div class="story-photo campus-photo" style="background-image: url('../assets/images/Rustam-park-front.png');"></div>
                         <div class="story-copy">
                             <p class="story-tag">Rustam Park Campus</p>
                             <h4>158, Rustam Park, Gulshan Ravi, Lahore</h4>
@@ -124,11 +124,12 @@
                                     <span>Campus Applying For</span>
                                     <select id="campusSelect" name="campus" required>
                                         <option value="">Select campus</option>
-                                        <option value="Girls Campus" data-email="dmchool0077@gmail.com">Girls Campus</option>
-                                        <option value="Kids Campus" data-email="dmchool0077@gmail.com">Kids Campus</option>
-                                        <option value="Rustam Park Campus" data-email="dmchool0077@gmail.com">Rustam Park Campus</option>
+                                        <option value="Girls Campus" data-email="usamah651@gmail.com">Girls Campus</option>
+                                        <option value="Kids Campus" data-email="usamah651@gmail.com">Kids Campus</option>
+                                        <option value="Rustam Park Campus" data-email="usamah651@gmail.com">Rustam Park Campus</option>
                                     </select>
                                 </label>
+                                <input type="hidden" name="routing_email" id="admissionRoutingEmail" value="usamah651@gmail.com">
                                 <label>
                                     <span>Class Applying For</span>
                                     <select name="class_applying_for" required>
@@ -185,10 +186,29 @@
                                 <label><span>Relationship</span><input type="text" name="relationship" placeholder="Father, Mother, Guardian" required></label>
                                 <label><span>CNIC Number</span><input type="text" name="cnic_number" required></label>
                                 <label><span>Occupation</span><input type="text" name="occupation"></label>
-                                <label><span>Father's Cell No.</span><input type="tel" name="phone" required></label>
-                                <label><span>Mother's Cell No.</span><input type="tel" name="mother_cell_no"></label>
-                                <label><span>WhatsApp Number</span><input type="tel" name="whatsapp"></label>
-                                <label><span>Email Address</span><input type="email" name="email"></label>
+                                <label>
+                                    <span>Father's Cell No.</span>
+                                    <div class="input-pair">
+                                        <input type="text" name="phone_country_code" value="+92" placeholder="+92" class="country-code-input" required>
+                                        <input type="tel" name="phone" placeholder="3001234567" required>
+                                    </div>
+                                </label>
+                                <label>
+                                    <span>Mother's Cell No.</span>
+                                    <div class="input-pair">
+                                        <input type="text" name="mother_cell_code" value="+92" placeholder="+92" class="country-code-input">
+                                        <input type="tel" name="mother_cell_no" placeholder="3001234567">
+                                    </div>
+                                </label>
+                                <label>
+                                    <span>WhatsApp Number</span>
+                                    <div class="input-pair">
+                                        <input type="text" name="whatsapp_code" value="+92" placeholder="+92" class="country-code-input">
+                                        <input type="tel" name="whatsapp" placeholder="3001234567">
+                                    </div>
+                                </label>
+                                <label><span>Email Address</span><input type="email" name="email" id="admissionEmail" placeholder="name@example.com"></label>
+                                <label><span>Confirm Email Address</span><input type="email" name="confirm_email" id="admissionConfirmEmail" placeholder="Re-enter email address"></label>
                             </div>
 
                             <div class="form-section-title">Address & Notes</div>
@@ -215,6 +235,7 @@
                             </div>
 
                             <div class="form-footer">
+                                <p class="form-validation-note" id="admissionValidationNote" hidden>Please make sure both email fields match before submitting.</p>
                                 <p id="submissionNote">Fill in the form carefully, choose the correct campus, and review the uploaded documents before submitting the admission request.</p>
                                 <div class="hero-actions">
                                     <button class="btn btn-primary" type="submit">Submit Admission Form</button>
